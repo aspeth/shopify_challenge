@@ -1,6 +1,11 @@
+<!- store name ->
 <h1> <%= @store.name %> </h1>
 
+<!- iterates through each item and prints name / price ->
 <% @store.items.each do |item| %>
   <h3> <%= item.name %> </h3>
   <p> <%= item.price %> </p>
 <% end %>
+
+<!- link to create new item ->
+<%= link_to "Create Item", "/stores/#{@store.id}/items/new" %>
