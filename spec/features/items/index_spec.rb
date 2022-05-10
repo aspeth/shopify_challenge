@@ -5,7 +5,7 @@ RSpec.describe "items index page" do
     #store and items we will expect to see
     shoes = Store.create!(name: "Soren's Shoes")
     left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id)
-    right_shoe = Item.create!(name: "Right shoe", price: 100, store_id: shoes.id)
+    right_shoe = Item.create!(name: "Right shoe", price: 200, store_id: shoes.id)
     
     #store and items we will expect to NOT see
     castles = Store.create!(name: "Carl's Castles")
@@ -17,8 +17,11 @@ RSpec.describe "items index page" do
     expect(page).to have_content("Soren's Shoes")
     expect(page).to have_content("Left shoe")
     expect(page).to have_content("Right shoe")
+    expect(page).to have_content("100")
+    expect(page).to have_content("200")
     
     #we should NOT see items from another store
     expect(page).to_not have_content("A castle for a cat")
+    expect(page).to_not have_content("300")
   end
 end
