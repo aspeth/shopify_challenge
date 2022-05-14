@@ -55,4 +55,29 @@ RSpec.describe "items index page" do
     expect(page).to have_content("Right shoe")
     expect(page).to have_content("200")
   end
+  
+  it "can edit items" do
+    #store with an item
+    shoes = Store.create!(name: "Soren's Shoes")
+    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id)
+    
+    visit "/stores/#{shoes.id}/items"
+    
+    #edit item
+    within "item-#{left_shoe.id}" do
+      click_link "Edit Left Shoe"
+      fill_in "Name", with: "Invisible shoe"
+      fill_in "Price", with: "1000"
+      click_button "Submit"
+    end
+
+    #check that we are back to the items index page after item editing
+    expect(current_path).to eq("/stores/#{shoes.id}/items")
+    
+    #we should see the new item name and price
+    expect(page).to_not have_content("Left shoe")
+    expect(page).to_not have_content("100")
+    expect(page).to have_content("Invisible shoe")
+    expect(page).to have_content("1000")
+  end
 end
