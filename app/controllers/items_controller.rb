@@ -25,7 +25,14 @@ class ItemsController < ApplicationController
     @item.save
     redirect_to "/stores/#{@store.id}/items"
   end
-
+  
+  def destroy
+    @store = Store.find(params[:store_id])
+    @item = Item.find(params[:id])
+    @item.destroy
+    redirect_to "/stores/#{@store.id}/items"
+  end
+  
   private
 
     def item_params

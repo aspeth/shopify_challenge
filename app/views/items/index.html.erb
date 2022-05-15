@@ -7,6 +7,7 @@
     <h3> <%= item.name %> </h3>
     <p> <%= item.price %> </p>
     <p> <%= link_to "Edit #{item.name}", "/stores/#{@store.id}/items/#{item.id}/edit" %>
+    <p> <%= link_to "Delete #{item.name}", "/stores/#{@store.id}/items/#{item.id}", method: :delete %>
   </div>
 <% end %>
 
