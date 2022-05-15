@@ -83,4 +83,26 @@ RSpec.describe "items index page" do
     expect(page).to have_content("Invisible Shoe")
     expect(page).to have_content("2000")
   end
+
+  it "shows all items from the current store" do
+    #store and items we will expect to see
+    shoes = Store.create!(name: "Soren's Shoes")
+    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id)
+    right_shoe = Item.create!(name: "Right shoe", price: 200, store_id: shoes.id)
+    
+    visit "/stores/#{shoes.id}/items"
+    
+    #we should see BOTH items from the current store
+    expect(page).to have_content("Left shoe")
+    expect(page).to have_content("Right shoe")
+
+    #delete item
+    within "#item-#{left_shoe.id}" do
+      click_link "Delete Left shoe"
+    end
+    
+    #we should NOT see deleted item but other item should be unaffected
+    expect(page).to_not have_content("Left shoe")
+    expect(page).to have_content("Right shoe")
+  end
 end
