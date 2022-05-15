@@ -3,8 +3,11 @@
 
 <!- iterates through each item and prints name / price ->
 <% @store.items.each do |item| %>
-  <h3> <%= item.name %> </h3>
-  <p> <%= item.price %> </p>
+  <div id="item-<%= item.id %>">
+    <h3> <%= item.name %> </h3>
+    <p> <%= item.price %> </p>
+    <p> <%= link_to "Edit #{item.name}", "/stores/#{@store.id}/items/#{item.id}/edit" %>
+  </div>
 <% end %>
 
 <!- link to create new item ->

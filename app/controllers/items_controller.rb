@@ -12,6 +12,19 @@ class ItemsController < ApplicationController
     @store.items.create!(item_params)
     redirect_to "/stores/#{@store.id}/items"
   end
+  
+  def edit
+    @store = Store.find(params[:store_id])
+    @item = Item.find(params[:id])
+  end
+  
+  def update
+    @store = Store.find(params[:store_id])
+    @item = Item.find(params[:id])
+    @item.update(item_params)
+    @item.save
+    redirect_to "/stores/#{@store.id}/items"
+  end
 
   private
 

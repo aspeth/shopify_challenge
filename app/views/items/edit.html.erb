@@ -1,0 +1,7 @@
+<%= form_with url: "/stores/#{@store.id}/items/#{@item.id}", method: :patch, local: true do |f| %>
+<%= f.label :name, "Name" %>
+<%= f.text_field :name %>
+<%= f.label :price, "Price" %>
+<%= f.number_field :price %>
+<%= f.submit "Update" %>
+<% end %>
