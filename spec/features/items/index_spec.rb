@@ -4,12 +4,12 @@ RSpec.describe "items index page" do
   it "shows all items from the current store" do
     #store and items we will expect to see
     shoes = Store.create!(name: "Soren's Shoes")
-    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id)
-    right_shoe = Item.create!(name: "Right shoe", price: 200, store_id: shoes.id)
+    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id, quantity: 10)
+    right_shoe = Item.create!(name: "Right shoe", price: 200, store_id: shoes.id, quantity: 10)
     
     #store and items we will expect to NOT see
     castles = Store.create!(name: "Carl's Castles")
-    cat_castle = Item.create!(name: "A castle for a cat", price: 300, store_id: castles.id)
+    cat_castle = Item.create!(name: "A castle for a cat", price: 300, store_id: castles.id, quantity: 10)
     
     visit "/stores/#{shoes.id}/items"
     
@@ -28,7 +28,7 @@ RSpec.describe "items index page" do
   it "can create new items" do
     #store with only one item
     shoes = Store.create!(name: "Soren's Shoes")
-    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id)
+    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id, quantity: 10)
     
     visit "/stores/#{shoes.id}/items"
     
@@ -44,6 +44,7 @@ RSpec.describe "items index page" do
     click_link "Create Item"
     fill_in "Name", with: "Right shoe"
     fill_in "Price", with: "200"
+    fill_in "Quantity", with: "10"
     click_button "Submit"
 
     #check that we are back to the items index page after item creation
@@ -59,7 +60,7 @@ RSpec.describe "items index page" do
   it "can edit items" do
     #store with an item
     shoes = Store.create!(name: "Soren's Shoes")
-    left_shoe = Item.create!(name: "Left Shoe", price: 100, store_id: shoes.id)
+    left_shoe = Item.create!(name: "Left Shoe", price: 100, store_id: shoes.id, quantity: 10)
     
     visit "/stores/#{shoes.id}/items"
     
@@ -87,8 +88,8 @@ RSpec.describe "items index page" do
   it "shows all items from the current store" do
     #store and items we will expect to see
     shoes = Store.create!(name: "Soren's Shoes")
-    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id)
-    right_shoe = Item.create!(name: "Right shoe", price: 200, store_id: shoes.id)
+    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id, quantity: 10)
+    right_shoe = Item.create!(name: "Right shoe", price: 200, store_id: shoes.id, quantity: 10)
     
     visit "/stores/#{shoes.id}/items"
     
