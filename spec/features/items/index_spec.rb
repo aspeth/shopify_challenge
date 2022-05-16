@@ -85,7 +85,7 @@ RSpec.describe "items index page" do
     expect(page).to have_content("2000")
   end
 
-  it "shows all items from the current store" do
+  it "can delete items" do
     #store and items we will expect to see
     shoes = Store.create!(name: "Soren's Shoes")
     left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id, quantity: 10)
@@ -96,7 +96,7 @@ RSpec.describe "items index page" do
     #we should see BOTH items from the current store
     expect(page).to have_content("Left shoe")
     expect(page).to have_content("Right shoe")
-
+    
     #delete item
     within "#item-#{left_shoe.id}" do
       click_link "Delete Left shoe"
@@ -105,5 +105,37 @@ RSpec.describe "items index page" do
     #we should NOT see deleted item but other item should be unaffected
     expect(page).to_not have_content("Left shoe")
     expect(page).to have_content("Right shoe")
+  end
+  
+  it "can add items to shipments and adjust inventory accordingly" do
+    #store and items we will expect to see
+    shoes = Store.create!(name: "Soren's Shoes")
+    left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id, quantity: 10)
+    right_shoe = Item.create!(name: "Right shoe", price: 200, store_id: shoes.id, quantity: 10)
+
+    #shipment with no items
+    shipment = Shipment.create!(origin: "Denver, CO", destination: "Capo Beach, CA")
+    
+    visit "/stores/#{shoes.id}/items"
+    
+    within "#item-#{left_shoe.id}" do
+      expect(page).to have_content("Quantity in Stock: 10")
+    end
+
+    click_link "Create Shipment"
+
+    expect(current_path).to eq("/stores/#{shoes.id}/shipments/new")
+
+    within "#add-items" do
+      page.check("Left shoe")
+    end
+    
+    click_button "Submit"
+
+    expect(current_path).to eq("/stores/#{shoes.id}/items")
+
+    within "#item-#{left_shoe.id}" do
+      expect(page).to have_content("Quantity in Stock: 0")
+    end
   end
 end

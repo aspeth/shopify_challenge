@@ -5,7 +5,8 @@
 <% @store.items.each do |item| %>
   <div id="item-<%= item.id %>">
     <h3> <%= item.name %> </h3>
-    <p> <%= item.price %> </p>
+    <p>Price: <%= item.price %> </p>
+    <p>Quantity in Stock: <%= item.quantity %> </p>
     <p> <%= link_to "Edit #{item.name}", "/stores/#{@store.id}/items/#{item.id}/edit" %>
     <p> <%= link_to "Delete #{item.name}", "/stores/#{@store.id}/items/#{item.id}", method: :delete %>
   </div>
@@ -13,3 +14,6 @@
 
 <!- link to create new item ->
 <%= link_to "Create Item", "/stores/#{@store.id}/items/new" %>
+
+<!- link to create new shipment ->
+<%= link_to "Create Shipment", "/stores/#{@store.id}/shipments/new" %>
