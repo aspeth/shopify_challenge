@@ -1,0 +1,6 @@
+<%= form_with url: "/stores/#{@store.id}/shipments", method: :create, local: true do |f| %>
+  <div id="add-items">
+    <%= f.collection_check_boxes :add_items, @store.items, :id, :name, include_hidden: false %>
+  </div>
+  <%= f.submit "Submit" %>
+<% end %>

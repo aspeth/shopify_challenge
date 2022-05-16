@@ -112,9 +112,6 @@ RSpec.describe "items index page" do
     shoes = Store.create!(name: "Soren's Shoes")
     left_shoe = Item.create!(name: "Left shoe", price: 100, store_id: shoes.id, quantity: 10)
     right_shoe = Item.create!(name: "Right shoe", price: 200, store_id: shoes.id, quantity: 10)
-
-    #shipment with no items
-    shipment = Shipment.create!(origin: "Denver, CO", destination: "Capo Beach, CA")
     
     visit "/stores/#{shoes.id}/items"
     
@@ -125,13 +122,14 @@ RSpec.describe "items index page" do
     click_link "Create Shipment"
 
     expect(current_path).to eq("/stores/#{shoes.id}/shipments/new")
-
+    
+    fill_in "Origin", with: "Dana Bluffs, CA"
+    fill_in "Destination", with: "Denver, CO"
     within "#add-items" do
       page.check("Left shoe")
     end
-    
     click_button "Submit"
-
+    
     expect(current_path).to eq("/stores/#{shoes.id}/items")
 
     within "#item-#{left_shoe.id}" do
