@@ -1,0 +1,3 @@
+<% @stores.each do |store| %>
+<%= link_to "#{store.name}", "/stores/#{store.id}/items" %>
+<% end %>
